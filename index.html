@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="animate.css">
+  <link rel="stylesheet" type="text/css" href="index.css">
+  <link id="defaultThemeStylesheet" rel="stylesheet" type="text/css" href="defaultTheme.css">
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
+  <script src="jquery.ui.touch-punch.min.js"></script>
+  <script type="text/javascript" src="animate.js"></script>
+  <script type="text/javascript" src="texteditor.js"></script>
+  <script type="text/javascript" src="index.js"></script>
+  <title>To-Do List V2</title>
+</head>
+<body>
+  <div id="menu">
+    <div id="list-select-container">
+      <div id="list-select">
+        <div id="visible-list-select">
+          <div id="list-1" class='list-select-option selected'>
+            Create New List +&nbsp;
+          </div>
+          <button id="select-btn" class="mnbtn">
+            <i class="material-icons">keyboard_arrow_down</i>
+          </button>
+        </div>
+        <div id="list-select-not-selected">
+        </div>
+      </div>
+      <div id="menu-left-btns">
+        <button id="add-list-btn" class="mnbtn">
+          <i class="material-icons">playlist_add</i>
+        </button>
+        <button id="edit-list" class="mnbtn">
+          <i class="material-icons">edit</i>
+        </button>
+      </div>
+    </div>
+    <div id="buttoncontainer">
+      <button class="mnbtn" id="add-btn">
+        <i class="material-icons">add</i>
+      </button>
+      <button id="clear-list" class="mnbtn">
+        <i class="material-icons">delete_sweep</i>
+      </button>
+      <button class="mnbtn" id="settings-btn">
+        <i class="material-icons">settings</i>
+      </button>
+      <button class="mnbtn" id="help-outline-btn">
+        <i class="material-icons">help_outline</i>
+      </button>
+    </div>
+  </div>
+  <div id="menu-filler"></div>
+  <div id="list"></div>
+  <div id="modals">
+    <div id="settings-modal" class="modal">
+      <button class="mnbtn" id="clear2-btn">
+         <i class="material-icons">clear</i>
+      </button>
+      <i class="material-icons" id="modalSetting">settings</i>
+      <h1 id="h2Style">Settings</h1>
+      <div id="line"></div>
+      <h3 id="h3">Notifications</h3>
+      <div id="line2"></div>
+    <label class="switch">
+      <input type="checkbox" checked id="toggleData">
+      <span class="slider round"></span>
+    </label>
+    <h3 id="h3">Color Scheme</h3>
+    <div class="colorOption">
+      <button id="colorLight" class="colorOptionButton">Light</button>
+    	<button id="colorDefault" class="colorOptionButton">Gray</button>
+      <button id="colorDark" class="colorOptionButton">Dark</button>
+    </div>
+    <h3 id="h3">Save Method</h3>
+    </div>
+    <div id="confirm" class="modal">
+  		<span id="confirm-message"></span>
+  		<div id="confirm-buttons">
+    		<button class="btnStyle" id="confirmBtn">Yes</button>
+    		<button class="btnStyle" id="cancelBtn">No</button>
+  		</div>
+  	</div>
+  </div>
+  <div id="rich-text-editor">
+    <button class="text-editor-btn" data-exec="bold">
+      <i class="material-icons">format_bold</i>
+    </button>
+    <button class="text-editor-btn" data-exec="underline">
+      <i class="material-icons">format_underlined</i>
+    </button>
+    <button class="text-editor-btn" data-exec="strikeThrough">
+      <i class="material-icons">strikethrough_s</i>
+    </button>
+    <!--
+    <button class="text-editor-btn" data-exec="foreColor" data-prompt-color>
+      <i class="material-icons">format_color_text</i>
+    </button>
+    <button class="text-editor-btn" data-format="background" data-prompt-color>
+      <i class="material-icons">format_color_fill</i>
+    </button>
+  -->
+    <button class="text-editor-btn" data-exec="fontSize" data-param="increase">
+      <i class="material-icons">format_size</i>
+    </button>
+    <button class="text-editor-btn" data-exec="fontSize" data-param="decrease">
+      <i class="material-icons">text_fields</i>
+    </button>
+    <button class="text-editor-btn" data-exec="justifyLeft">
+      <i class="material-icons">format_align_left</i>
+    </button>
+    <button class="text-editor-btn" data-exec="justifyCenter">
+      <i class="material-icons">format_align_center</i>
+    </button>
+    <button class="text-editor-btn" data-exec="justifyRight">
+      <i class="material-icons">format_align_right</i>
+    </button>
+    <button class="text-editor-btn" data-exec="removeFormat">
+      <i class="material-icons">format_clear</i>
+    </button>
+    <input id="color-prompt" type="color" value="#000000">
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,472 @@
+*{
+  font-family: roboto, sans-serif;
+}
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: rgb(230,230,230);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(100,100,100,1);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(125,125,125,1);
+}
+html,body{
+  margin:0;
+  padding:0;
+  max-width: 100%;
+  max-height: 100%;
+}
+h1,h2,h3{
+  font-weight: 400;
+}
+#menu{
+  width:100%;
+  position:sticky;
+  top: 0;
+  display:flex;
+  z-index: 2;
+  margin-bottom: 20px;
+}
+#list-select-container{
+  flex-grow: 1;
+  margin:10px 0;
+  margin-left: 10px;
+  max-width: calc(100% - 210px);
+}
+#list-select{
+  display: inline-block;
+  cursor: pointer;
+  float: left;
+  max-width: 100%;
+  transition: width 0.5s;
+}
+#list-1{
+  font-style: italic;
+}
+#menu-left-btns{
+  display: inline-block;
+  margin-left: 12px;
+}
+#menu-left-btns button i{
+  font-size: 35px;
+}
+
+.list-select-option{
+  font-size:35px;
+  cursor: pointer;
+  user-select: none;
+  vertical-align: middle;
+  line-height: 50px;
+  max-width: 100%;
+  word-wrap: break-word;
+  transition: color 0.5s, border 0.5s;
+  white-space: normal;
+  overflow: hidden;
+  border-bottom: 2px solid white;
+}
+.list-select-option.selected{
+  display: inline-block;
+  max-width: calc(100% - 50px);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  background-color: transparent;
+  border: none;
+}
+.list-select-option.selected:hover{
+  border-color: rgb(220,220,220);
+}
+#list-select-not-selected .list-select-option{
+  display: block;
+  background-color: rgb(60,60,60);
+  color: white;
+  width: 100%;
+}
+#list-select-not-selected .list-select-option:hover{
+  color: rgb(180,180,180);
+  border-color: rgb(180,180,180);
+}
+#list-select-not-selected{
+  display: none;
+  position: fixed;
+  max-height: calc(100% - 65px);
+  overflow:auto;
+  width: auto;
+}
+#select-btn{
+  margin: 0;
+  padding: 0;
+  color: inherit !important;
+  float: right;
+}
+#select-btn i{
+  vertical-align: middle;
+  line-height: normal;
+  font-size:50px;
+  color: inherit !important;
+  display: inline-block;
+  transform: rotate(0deg);
+  transition: transform 0.5s;
+}
+#select-btn i.on{
+  transform: rotate(-180deg);
+}
+#visible-list-select{
+  border-bottom: 5px solid white;
+  transition: border 0.5s;
+}
+#buttoncontainer{
+  flex-grow: 0;
+  margin:12.5px 0;
+}
+button{
+  cursor:pointer;
+  background-color: white;
+  margin: 5px 0;
+  border:none;
+  border-radius:5px;
+  transition: background 0.5s, color 0.5s;
+}
+button:hover{
+  background-color: rgb(220,220,220);
+}
+button:active{
+  background-color: rgb(180,180,180);
+}
+button:focus {
+  outline:0;
+}
+#buttoncontainer button.mnbtn i.material-icons{
+  font-size: 35px;
+  vertical-align: middle;
+  display: inline-block;
+}
+#buttoncontainer button.mnbtn{
+  line-height: 35px;
+  height: 35px;
+}
+i.material-icons{
+  user-select: none;
+}
+.mnbtn{
+  background-color: transparent;
+  color: white;
+}
+.mnbtn:hover{
+  background-color: transparent;
+  color: rgb(200, 200, 200);
+}
+.mnbtn:active{
+  background-color: transparent;
+  color: rgb(150, 150, 150);
+}
+#list{
+  padding: 10px;
+}
+#list:empty::before{
+  color: #aaa;
+  margin: 0 auto;
+  text-align: center;
+  display: table;
+  font-size: 36px;
+  font-style: italic;
+  content: "This list is empty \A Click + to create a new item";
+  white-space: pre;
+}
+#edit-list{
+  display: inline-block;
+}
+#edit-list i{
+
+}
+
+.item{
+  width: auto;
+  display: flex;
+  background-color: white;
+  color: black;
+  margin: 5px 0;
+  cursor: text;
+}
+.item .item-span{
+  padding: 20px;
+  outline: none;
+  padding-left: 0px;
+}
+.item-span{
+  width: calc(100% - 35px);
+  word-break: break-all;
+}
+.item-close{
+  width: 35px;
+  text-align: center;
+  display: inline-flex;
+  align-items: center;
+  color: rgb(150,150,150);
+  transition: color 0.5s;
+  cursor: pointer;
+}
+.item-close:hover{
+  color: rgb(200,200,200);
+}
+.item-move{
+  width: 35px;
+  text-align: center;
+  display: inline-flex;
+  align-items: center;
+  color: rgb(150,150,150);
+  transition: color 0.5s;
+  cursor: ns-resize;
+}
+.item-move:hover{
+  color: rgb(200,200,200);
+}
+.item-done{
+  width: 35px;
+  text-align: center;
+  display: inline-flex;
+  align-items: center;
+  color: rgb(150,150,150);
+  transition: color 0.5s;
+  cursor: pointer;
+  margin-left: 5px;
+}
+.item-done:hover{
+  color: rgb(200,200,200);
+}
+.item .item-span:empty:before{
+  content:"Click and type to edit";
+  color: grey;
+  font-style: italic;
+}
+.ui-sortable-helper{
+  cursor: ns-resize !important;
+}
+#rich-text-editor{
+  display: inline-block;
+  overflow-x: hidden;
+  background-color: rgba(60,60,60,1);
+  overflow-y: hidden;
+  z-index: 1;
+  position: absolute;
+  top:0px;
+}
+#color-prompt{
+  visibility:hidden;
+  position:absolute;
+}
+.text-editor-btn{
+  background-color:transparent;
+  color: white;
+  border-radius: 0;
+  margin:0;
+  margin-left:-4px;
+  padding: 5px 10px;
+  line-height: 0;
+}
+.text-editor-btn:hover{
+  color: black;
+}
+
+
+
+
+/*** MODALS AND THEMES **********************************************************************************************************/
+#modals{
+  display: none;
+  position: fixed;
+  top:0;
+  left:0;
+  width: 100%;
+  height: 100%;
+  border: 2px solid black;
+  z-index:2;
+  background-color:rgba(0,0,0,0.5);
+}
+
+#settings-modal{
+  width:350px;
+  max-height:600px;
+  background-color: #EBEBEB;
+  color: rgb(50,50,50);
+  display: none;
+  user-select: none;
+}
+
+.modal{
+  margin:7.5% auto;
+  padding: 10px;
+  z-index:10;
+  border-radius:5px;
+  display:none;
+}
+
+#clear2-btn{
+  float:right;
+}
+
+#h2Style{
+  margin:0;
+  display: inline;
+  color: #8C8C8C;
+}
+
+#h3{
+  color:#8C8C8C;
+  font-size: 22px;
+  margin: 10px 0;
+}
+
+#modalSetting{
+  margin:0;
+  color:#8C8C8C;
+  font-size: 25px;
+}
+#line{
+  margin-top: 5px;
+  border-top:2px solid #D3D3D3;
+}
+#line2{
+  border-top:2px solid #D3D3D3;
+  display: inline;
+}
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 30px;
+}
+
+.switch input {display:none;}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 22px;
+  width: 22px;
+  left: 6px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 50px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+#colorDefault{
+  background-color:rgba(80,80,80,1);
+  color: white;
+}
+
+#colorDefault:hover{
+  background-color: rgb(150,150,150);
+}
+
+#colorLight{
+  background-color:white;
+  border-top-left-radius:50px;
+  border-bottom-left-radius:50px;
+}
+
+#colorLight:hover{
+  color: white;
+  background-color: rgb(150,150,150);
+}
+
+#colorDark{
+  background-color:#201F24;
+  color:white;
+  border-top-right-radius:50px;
+  border-bottom-right-radius:50px;
+}
+
+#colorDark:hover{
+  background-color: rgb(150,150,150);
+}
+.colorOptionButton.selected{
+  text-decoration: underline;
+}
+.colorOptionButton{
+  font-size: 18px;
+  width: 80px;
+  height: 40px;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: 0;
+  margin-right: -4px;
+  transition: background 0.5s, color 0.5s;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none; /* Webkit */
+  -moz-user-select: none;    /* Firefox */
+  -ms-user-select: none;     /* IE 10  */
+}
+
+
+
+
+
+/*Delete Modal CSS*********************************************************************************************************/
+
+#confirm{
+  background-color: #EBEBEB;
+  margin:5% auto;
+  position: relative;
+  padding: 15px;
+  width: 400px;
+  border-radius:5px;
+  z-index:10;
+  display:none;
+  font-size: 20px;
+}
+
+#confirm-buttons{
+  position: relative;
+  text-align: right;
+  margin-top: 15px;
+}
+.btnStyle{
+  display:inline-block;
+  font-size:16px;
+  padding: 5px 10px;
+  border-radius:10px;
+}
+#cancelBtn{
+}
+#confirmBtn{
+}

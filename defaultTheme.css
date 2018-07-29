@@ -1,0 +1,60 @@
+html,body{
+	background-color: rgb(200,200,200);
+}
+#menu{
+	background-color:rgba(60,60,60,1);
+	color:white;
+}
+.item{
+	background-color:white;
+	color:black;
+}
+.list-select-option{
+	border-bottom:2px solid white;
+}
+#visible-list-select{
+	border-bottom:5px solid white;
+}
+#visible-list-select:hover{
+  color:rgb(200, 200, 200);
+  border-bottom: 5px solid rgb(200, 200, 200);
+}
+.mnbtn{
+	color:white;
+}
+#list-select-not-selected .list-select-option{
+	color:white;
+	background-color: rgb(60,60,60);
+}
+.list-select-option{
+	color:white;
+}
+#list-select-not-selected{
+	color:white;
+}
+#select-btn{
+	color:white;
+}
+#list-1{
+  color: rgb(200,200,200);
+}
+#list-1:hover{
+	color:white;
+}
+.list-close{
+	color: white;
+	transition: color 0.5s;
+}
+.list-close:hover{
+	color:rgb(200, 200, 200);
+}
+.list-select-option,.list-select-title{
+	color: white;
+	transition: color 0.5s;
+}
+.list-select-option,.list-select-title:hover{
+	color: rgb(200,200,200);
+}
+.list-close:hover{
+	color:rgb(200, 200, 200);
+}

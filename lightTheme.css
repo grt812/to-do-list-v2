@@ -1,0 +1,42 @@
+html,body{
+	background-color: rgb(200,200,200);
+}
+#menu{
+	background-color:white;
+	color:rgb(50,50,50);
+}
+
+.item{
+	background-color:white;
+	color:black;
+}
+
+#visible-list-select{
+	border-bottom:5px solid rgb(50,50,50);
+}
+
+.list-select-option{
+	border-bottom:2px solid rgb(50,50,50);
+}
+
+.mnbtn{
+	color:rgb(50,50,50);
+}
+
+#list-select-not-selected .list-select-option{
+	color:rgb(50,50,50);
+	background-color: white;
+}
+
+.list-select-option{
+	color:rgb(50,50,50);
+}
+
+
+#list-select-not-selected{
+	color:rgb(50,50,50);
+}
+
+#select-btn{
+	color:rgb(50,50,50);
+}

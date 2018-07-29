@@ -1,0 +1,43 @@
+html, body{
+	background-color:rgb(30,30,30);
+}
+
+#menu{
+	background-color:rgb(25,25,25);
+	color:white;
+}
+
+.item{
+	background-color:rgba(50,50,50,0.85);
+	color:white;
+}
+
+.list-select-option{
+	border-bottom:2px solid white;	
+}
+
+#visible-list-select{
+	border-bottom:5px solid white;	
+}
+
+.mnbtn{
+	color:white;
+} 
+
+#list-select-not-selected .list-select-option{
+	color:white;
+	background-color: rgb(25,25,25);
+}
+
+
+.list-select-option{
+	color:white;
+}
+
+#list-select-not-selected{
+	color:white;
+} 
+
+#select-btn{
+	color:white;
+}
