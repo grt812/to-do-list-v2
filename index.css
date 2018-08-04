@@ -1,6 +1,9 @@
 *{
   font-family: roboto, sans-serif;
 }
+:root {
+  --menu-color: rgb(220,220,220);
+}
 ::-webkit-scrollbar {
   width: 10px;
 }
@@ -12,6 +15,9 @@
 }
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(125,125,125,1);
+}
+*[contenteditable="true"]{
+  cursor: auto !important;
 }
 html,body{
   margin:0;
@@ -79,6 +85,21 @@ h1,h2,h3{
 .list-select-option.selected:hover{
   border-color: rgb(220,220,220);
 }
+.each-list{
+  background-color: initial;
+  display: none;
+}
+.each-list:empty::before{
+  margin:0 auto;
+  display: table;
+  font-size: 30px;
+  color: #AAA;
+  font-style: italic;
+  content: "This list is empty \A Click + to create a new item";
+}
+.each-list.selected{
+  display: block;
+}
 #list-select-not-selected .list-select-option{
   display: block;
   background-color: rgb(60,60,60);
@@ -95,6 +116,10 @@ h1,h2,h3{
   max-height: calc(100% - 65px);
   overflow:auto;
   width: auto;
+}
+.list-select-title:empty::before{
+  font-style: italic;
+  content:"Untitled List";
 }
 #select-btn{
   margin: 0;
@@ -173,8 +198,11 @@ i.material-icons{
   display: table;
   font-size: 36px;
   font-style: italic;
-  content: "This list is empty \A Click + to create a new item";
+  content: "There are no lists yet \A Click the new list icon for new list";
   white-space: pre;
+}
+.lists-in-lists{
+
 }
 #edit-list{
   display: inline-block;
@@ -190,11 +218,18 @@ i.material-icons{
   color: black;
   margin: 5px 0;
   cursor: text;
+  transition: background 0.5s;
+}
+.item-placeholder{
+  width: 100%;
+  height: auto;
+  background-color: rgb(60,60,60);
 }
 .item .item-span{
   padding: 20px;
   outline: none;
   padding-left: 0px;
+  transition: color 0.5s;
 }
 .item-span{
   width: calc(100% - 35px);
@@ -234,6 +269,15 @@ i.material-icons{
   cursor: pointer;
   margin-left: 5px;
 }
+.item.is-done{
+  background-color: rgb(200, 255, 200);
+}
+.item.is-done .item-span{
+  color: rgb(150,150,150);
+}
+.item.is-done .item-span:hover{
+  color: black;
+}
 .item-done:hover{
   color: rgb(200,200,200);
 }
@@ -242,8 +286,9 @@ i.material-icons{
   color: grey;
   font-style: italic;
 }
-.ui-sortable-helper{
+.item.ui-sortable-helper{
   cursor: ns-resize !important;
+  box-shadow: 0px 0px 50px 0px rgb(100,100,100);
 }
 #rich-text-editor{
   display: inline-block;
@@ -457,7 +502,7 @@ input:checked + .slider:before {
 
 #confirm-buttons{
   position: relative;
-  text-align: right;
+  text-align: center;
   margin-top: 15px;
 }
 .btnStyle{
