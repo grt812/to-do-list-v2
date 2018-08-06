@@ -1,4 +1,5 @@
 $(document).ready(function(){
+  //loadInFromData();
   //Dropdown Toggle
   var isListDropdownOn = false;
   var editListOn = false;
@@ -7,6 +8,14 @@ $(document).ready(function(){
       toggleListDropdown();
     }
   });
+  //Auto Save
+  setInterval(function(){
+    loadLocalData();
+  },0.5*1000);
+  //manual save
+  // $("#save-btn").click(function(){
+  //   loadLocalData();
+  // });
   //List Toggle Function
   function toggleListDropdown(){
     isListDropdownOn = !isListDropdownOn;
@@ -15,8 +24,6 @@ $(document).ready(function(){
   }
   //Adjusts filler when there are no lists
   function addListByFiller(){
-    console.log("number of visible: "+$("#visible-list-select").children().length)
-    console.log("number of dropdown: "+$("#list-select-not-selected").children().length)
     if($("#visible-list-select").children().length <= 2 && $("#list-select-not-selected").children().length == 0){
       $("#list-1").show();
       $("#list-1").addClass("selected");
@@ -28,26 +35,39 @@ $(document).ready(function(){
       }
     }
   }
+  $("body").on("click",".list-select-container",function(){
+    if(isListDropdownOn){
+      toggleListDropdown();
+    }
+  });
   //Add new list handler
-  $("#add-list-btn").click(function(e){
-    //Find available IDs
-    let listid = $(".list-select-option").length;
-    for(let j = 1; j <= $(".list-select-option").length; j++){
-      if(!$("#list"+j).length){
-        listid = j;
+  $("#add-list-btn").click(function(e,id,title){
+    let listid;
+    if(id === undefined){
+      //Find available IDs
+      listid = $(".list-select-option").length;
+      for(let j = 0; j < $(".list-select-option").length; j++){
+        if(!$("#list"+j).length){
+          listid = j;
+        }
       }
+    }else{
+      listid = id;
+    }
+    if(title === undefined){
+      title = "";
     }
     //New List Dropdown
     $("#list-select-not-selected").append("\
     <div id='list"+listid+"' class='list-select-option'>\
-      <span class='list-select-title'>New List</span>\
+      <span class='list-select-title'>"+title+"</span>\
       <span id='list-close"+listid+"' class='list-close'><i class='material-icons'>close</i></span>\
     </div>");
     $("#list").append("\
     <div id='list-display"+listid+"' class='each-list'></div>");
     addListByFiller();
     $("#list"+listid).hide();
-    $("#list"+listid).sortable({
+    $("#list-display"+listid).sortable({
       handle:".item-move",
       axis: "y",
       revert: 400,
@@ -63,12 +83,11 @@ $(document).ready(function(){
       $("#list-display"+listid).addClass("selected");
     }
     if(editListOn){
-      $("#list"+listid).attr("contenteditable","true");
+      $("#list-seelct-title"+listid).attr("contenteditable","true");
     }
     $("#list-close"+listid).click(function(e){
       e.stopPropagation();
       confirmModal("Are you sure you want to delete "+$("#list"+listid+" .list-select-title").text()+"?",function(){
-        removeListWhiteSpace();
         if(!($("#list"+listid).hasClass("selected"))){
           $("#list"+listid).slideUp(function(){
             $("#list"+listid).remove();
@@ -86,22 +105,17 @@ $(document).ready(function(){
             addListByFiller();
           });
         }
-        console.log($("#list-display"+listid));
+
         $("#list-display"+listid).sortable();
         $("#list-display"+listid).sortable("destroy");
         $("#list-display"+listid).remove();
-        console.log($("#list-select-not-selected").children().length);
-        console.log($("#visible-list-select").children().length);
-        console.log(($("#list-select-not-selected").children().length != 0 && $("#visible-list-select").children().length >= 2));
+        removeListWhiteSpace();
       });
     });
-    if(!isListDropdownOn){
+    if(!isListDropdownOn && listid != id){
       toggleListDropdown();
-    } else {
-      console.log(isListDropdownOn);
     }
     $("#list"+listid).click(function(){
-      console.log(editListOn);
       if(!editListOn){
         if(!($(".list-select-option.selected").is("#list-1"))){
           let selectedId = $(".list-select-option.selected").attr("id");
@@ -116,6 +130,7 @@ $(document).ready(function(){
   });
   $("#edit-list").click(function(){
     editListOn = !editListOn;
+    $(this).toggleClass("edit-list-on");
     if(editListOn){
       if(!isListDropdownOn){
         toggleListDropdown();
@@ -130,69 +145,53 @@ $(document).ready(function(){
     e.stopPropagation();
     $("#add-list-btn").trigger("click");
   });
-  function onItemChange(){
-    loadLocalData();
-  };
-  function loadLocalData(){
-    localStorage.clear();
-    for(let i = 0; i < $(".list-option-select:not(#list-1)").length; i++){
-      for(let j = 0; j < $(".item").length; j++){
-        localStorage.setItem("Item"+j+"List"+i, $(".item").eq(j).html());
-        localStorage.setItem("ItemCompleted"+j, $(".item").data("is-done"));
-      }
-      localStorage.setItem("List"+i, $(".list-select-option").eq(i).text());
-    }
-  }
-  function displayLocalData(){
-    while(false){
-
-    }
-  }
-  function onItemRemove(){
-    onItemChange();
-  };
-  function onItemAdd(){
-    onItemChange();
-  };
-  function onItemEdit(){
-    onItemChange();
-  };
   //New item handler
   var focusedContentEditable;
-  $("#add-btn").click(function(){
-    let itemid = $(".item").length;
-    contentEditableDivs = $("[contenteditable='true'], [contenteditable='']");
-    for(var i = 0; i < $(".item").length; i++){
-      if(!$("#item"+i).length){
-        itemid = i;
-        break;
-      }
+  $("#add-btn").click(function(e, id, content, selectedList){
+    let itemid;
+    if(selectedList == undefined){
+      selectedList = ".each-list.selected";
     }
-    console.log($(".each-list.selected").length);
-    if($(".each-list.selected").length){
-      $(".each-list.selected").append("\
-        <div id='item"+itemid+"' class='item' data-is-done='false'>\
-          <span id='item-done"+itemid+"' class='item-done'><i class='material-icons'>check_box_outline_blank</i></span>\
-          <span id='item-span"+itemid+"' class='item-span' contenteditable='true'>New Item</span>\
-          <span id='item-move"+itemid+"' class='item-move'><i class='material-icons'>swap_vert</i></span>\
-          <span id='item-close"+itemid+"' class='item-close'><i class='material-icons'>close</i></span>\
+    if(id === undefined){
+      itemid = $(".item").length;
+      contentEditableDivs = $("[contenteditable='true'], [contenteditable='']");
+      for(var i = 0; i < $(".item").length; i++){
+        console.log($("#item"+i+"-"+$(selectedList).index()).length);
+        if(!$("#item"+i+"-"+$(selectedList).index()).length){
+          itemid = i;
+          break;
+        }
+      }
+    } else {
+      itemid = id;
+    }
+    if(content === undefined){
+      content="";
+    }
+    let fullItemId = "#item"+itemid+"-"+$(selectedList).index();
+    if($(".each-list").length){
+      $(selectedList).append("\
+        <div id='"+fullItemId.substring(1,fullItemId.length)+"' class='item'>\
+          <span class='item-done'><i class='material-icons'>check_box_outline_blank</i></span>\
+          <span class='item-span' contenteditable='true'>"+content+"</span>\
+          <span class='item-move'><i class='material-icons'>swap_vert</i></span>\
+          <span class='item-close'><i class='material-icons'>close</i></span>\
         </div>\
       ");
-      $("#item"+itemid).useAnimateCSS("fadeInDown");
+      $(fullItemId).useAnimateCSS("fadeInDown");
       setTimeout(function() {
-        $("#item"+itemid).removeAnimateCSS("fadeInDown");
+        $(fullItemId).removeAnimateCSS("fadeInDown");
       }, 1000);
-      onItemAdd(itemid);
       var thisBtn;
-      $(".text-editor-btn").on("click.item"+itemid,function(){
+      $(".text-editor-btn").on("click."+fullItemId,function(){
         thisBtn = $(this);
         focusedContentEditable.focus();
-        if(document.activeElement == $("#item"+itemid)[0] || document.activeElement == $("#item-span"+itemid)[0]){
+        if(document.activeElement == $(fullItemId)[0] || document.activeElement == $(fullItemId+" .item-span")[0]){
           let fontSize = document.queryCommandValue("FontSize");
           let lastBtn;
           let lastColorBtn;
-          console.log($("#item-span"+itemid));
-          $("#item-span"+itemid).selectText();
+          console.log($(fullItemId+" .item-span"));
+          $($(selectedList).attr("id")+" "+".item #item-span"+itemid).selectText();
           if($(this).attr("data-exec") !== undefined){
             if($(this).attr("data-prompt-color") === undefined){
               if($(this).attr("data-exec") !== "fontSize"){
@@ -211,7 +210,7 @@ $(document).ready(function(){
 
               if($(this).attr("data-exec") === "removeFormat"){
                 $(".text-editor-btn").css("color","");
-                $("#item"+itemid).css("background-color", "");
+                $($(selectedList).attr("id")+" "+".item #item-span"+itemid).css("background-color", "");
               }
             }else{
               $("#color-prompt").trigger("click");
@@ -225,30 +224,27 @@ $(document).ready(function(){
           }
       }
       });
-      $("#item-close"+itemid).click(function(){
-        onItemRemove($("#item"+itemid));
-        if($(".each-list.selected").children().length < 1){
-          $(".each-list.selected").html("");
-        } else {
-          console.log("length "+$(".each-list.selected").children().length);
-        }
-        $("#item"+itemid).addClass("zoomOut animated");
-        $(".text-editor-btn").off("click.item"+itemid);
+      $(fullItemId+" .item-close").click(function(){
+        $(fullItemId).removeAnimateCSS("");
+        $(fullItemId).useAnimateCSS("zoomOut");
+        $(".text-editor-btn").off("click."+fullItemId);
         setTimeout(function() {
-          $("#item"+itemid).off();
-          $("#item-"+itemid).sortable("disabled");
-          $("#item"+itemid).remove();
+          $(fullItemId).off();
+          $(fullItemId).remove();
+          if($(".each-list.selected").children().length <= 0){
+            $(".each-list.selected").html("");
+          }
         },500);
       });
-      $("#item-done"+itemid).click(function(){
-        $("#item"+itemid).toggleClass("is-done");
-        if($("#item"+itemid).hasClass("is-done")){
-          $("#item-done"+itemid+" i").text("check_box");
+      $(fullItemId+" .item-done").click(function(){
+        $(fullItemId).toggleClass("is-done");
+        if($(fullItemId).hasClass("is-done")){
+          $(fullItemId+" .item-done i").text("check_box");
         }else{
-          $("#item-done"+itemid+" i").text("check_box_outline_blank");
+          $(fullItemId+" .item-done i").text("check_box_outline_blank");
         }
       });
-      $("#item"+itemid+" .item-span").click(function(){
+      $(fullItemId+" .item-span").click(function(){
         focusedContentEditable = $(this);
         $("#rich-text-editor").attr("style","visibility:visible;");
         if($(this).offset().top - $("#rich-text-editor").height() > 0){
@@ -262,10 +258,6 @@ $(document).ready(function(){
           $("#rich-text-editor").offset({left: $(this).offset().left - ($(this).offset().left + $("#rich-text-editor").width()-$(document).width())});
         }
       });
-      $("#item"+itemid+" .item-span").on("blur keyup paste input",function(){
-        onItemEdit();
-        console.log("Edit");
-      });
     }else{
       $("#list").useAnimateCSS("shake");
       $("html,body").css("overflow-x","hidden");
@@ -278,25 +270,42 @@ $(document).ready(function(){
   function removeListWhiteSpace(){
     if($("#list").children().length == 0){
       $("#list").html("");
+      $("#list").text("");
     }
   }
-  // $("#clear-list").click(function(){
-  //   if(confirm("Are you sure you want to delete all list items?")){
-  //     if($("#list").children().length != 0){
-  //       $("#list").useAnimateCSS("zoomOut");
-  //       setTimeout(function() {
-  //         $("#list").children().each(function(){
-  //           $(this).off();
-  //         });
-  //         $("#list").html("");
-  //         $("#list").removeAnimateCSS("zoomOut")
-  //       },500);
-  //     }
-  //   }
-  // });
+  loadInFromData();
+  //Save and load data to local storage
+  function loadLocalData(){
+    localStorage.clear();
+    for(let i = 0; i < $(".list-select-option:not('#list-1')").length; i++){
+      localStorage.setItem("List"+i,$("#list"+i+" .list-select-title").text());
+      for(let j = 0; j < $("#list-display"+i+" .item").length; j++){
+        localStorage.setItem("Item"+j+"-"+i,$("#item"+j+"-"+i).hasClass("is-done")+","+$("#item"+j+"-"+i+" .item-span").html());
+      }
+    }
+  }
+  //Load data from local storage into html
+  function loadInFromData(){
+    let currentList = 0;
+    let currentItem = 0;
+    let itemValue;
+    while(localStorage.getItem("List"+currentList) !== undefined && localStorage.getItem("List"+currentList) !== null){
+      $("#add-list-btn").trigger("click", [currentList, localStorage.getItem("List"+currentList)]);
+      itemValue = localStorage.getItem("Item"+currentItem+"-"+currentList);
+      while(itemValue !== undefined && itemValue !== null){
+        $("#add-btn").trigger("click", [currentItem, itemValue.substring(itemValue.indexOf(",")+1,itemValue.length),"#list-display"+currentList]);
+        if(itemValue.substring(0,itemValue.indexOf(",")) == "true"){
+          console.log("check");
+          $("#item"+currentItem+"-"+currentList+" .item-done").trigger("click");
+        }
+        currentItem++;
+        itemValue = localStorage.getItem("Item"+currentItem+"-"+currentList);
+      }
+      currentItem=0;
+      currentList++;
+    }
+  }
   //Modal and Themes
-  //Modal
-
   $( "#settings-btn" ).click(function() {
   	$("#modals").show();
 	  $("#settings-modal").show();
@@ -307,7 +316,7 @@ $(document).ready(function(){
 	  $("#settings-modal").hide();
 	  $("#modals").hide();
 	});
-//Theme
+
   $("#colorDefault").click(function() {
     $(".colorOptionButton.selected").removeClass("selected");
     $(this).addClass("selected");
@@ -354,7 +363,6 @@ $(document).ready(function(){
   }
   $("#clear-list").click(function(){
     confirmModal("Are you sure you want to delete all list items?",function(){
-      onItemRemove($(".each-list.selected").children());
       if($(".each-list.selected").children().length != 0){
         $(".each-list.selected").useAnimateCSS("zoomOut");
         setTimeout(function() {
@@ -362,10 +370,10 @@ $(document).ready(function(){
             $(this).off();
             $(".text-editor-btn").off("click");
           });
-          $(".each-list.selected").html("");
           $(".each-list.selected").removeAnimateCSS("zoomOut");
         },500);
       }
+      $(".each-list.selected").html("");
     });
   });
 });
