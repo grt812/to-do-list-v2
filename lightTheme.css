@@ -1,8 +1,8 @@
 html,body{
-	background-color: rgb(200,200,200);
+	background-color: rgb(230,230,230);
 }
 #menu{
-	background-color:white;
+	background-color: rgb(255,255,255);
 	color:rgb(50,50,50);
 }
 
@@ -32,6 +32,9 @@ html,body{
 	color:rgb(50,50,50);
 }
 
+.item span i{
+	color: rgb(100,100,100);
+}
 
 #list-select-not-selected{
 	color:rgb(50,50,50);

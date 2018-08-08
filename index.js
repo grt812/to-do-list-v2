@@ -273,38 +273,6 @@ $(document).ready(function(){
       $("#list").text("");
     }
   }
-  loadInFromData();
-  //Save and load data to local storage
-  function loadLocalData(){
-    localStorage.clear();
-    for(let i = 0; i < $(".list-select-option:not('#list-1')").length; i++){
-      localStorage.setItem("List"+i,$("#list"+i+" .list-select-title").text());
-      for(let j = 0; j < $("#list-display"+i+" .item").length; j++){
-        localStorage.setItem("Item"+j+"-"+i,$("#item"+j+"-"+i).hasClass("is-done")+","+$("#item"+j+"-"+i+" .item-span").html());
-      }
-    }
-  }
-  //Load data from local storage into html
-  function loadInFromData(){
-    let currentList = 0;
-    let currentItem = 0;
-    let itemValue;
-    while(localStorage.getItem("List"+currentList) !== undefined && localStorage.getItem("List"+currentList) !== null){
-      $("#add-list-btn").trigger("click", [currentList, localStorage.getItem("List"+currentList)]);
-      itemValue = localStorage.getItem("Item"+currentItem+"-"+currentList);
-      while(itemValue !== undefined && itemValue !== null){
-        $("#add-btn").trigger("click", [currentItem, itemValue.substring(itemValue.indexOf(",")+1,itemValue.length),"#list-display"+currentList]);
-        if(itemValue.substring(0,itemValue.indexOf(",")) == "true"){
-          console.log("check");
-          $("#item"+currentItem+"-"+currentList+" .item-done").trigger("click");
-        }
-        currentItem++;
-        itemValue = localStorage.getItem("Item"+currentItem+"-"+currentList);
-      }
-      currentItem=0;
-      currentList++;
-    }
-  }
   //Modal and Themes
   $( "#settings-btn" ).click(function() {
   	$("#modals").show();
@@ -376,4 +344,49 @@ $(document).ready(function(){
       $(".each-list.selected").html("");
     });
   });
+  loadInFromData();
+  //Save and load data to local storage
+  function loadLocalData(){
+    localStorage.clear();
+    for(let i = 0; i < $(".list-select-option:not('#list-1')").length; i++){
+      localStorage.setItem("List"+i,$("#list"+i+" .list-select-title").text());
+      for(let j = 0; j < $("#list-display"+i+" .item").length; j++){
+        localStorage.setItem("Item"+j+"-"+i,$("#item"+j+"-"+i).hasClass("is-done")+","+$("#item"+j+"-"+i+" .item-span").html());
+      }
+    }
+    localStorage.setItem("theme",$(".colorOptionButton.selected").length?$(".colorOptionButton.selected").text():"Gray");
+  }
+  //Load data from local storage into html
+  function loadInFromData(){
+    let currentList = 0;
+    let currentItem = 0;
+    let itemValue;
+    while(localStorage.getItem("List"+currentList) !== undefined && localStorage.getItem("List"+currentList) !== null){
+      $("#add-list-btn").trigger("click", [currentList, localStorage.getItem("List"+currentList)]);
+      itemValue = localStorage.getItem("Item"+currentItem+"-"+currentList);
+      while(itemValue !== undefined && itemValue !== null){
+        $("#add-btn").trigger("click", [currentItem, itemValue.substring(itemValue.indexOf(",")+1,itemValue.length),"#list-display"+currentList]);
+        if(itemValue.substring(0,itemValue.indexOf(",")) == "true"){
+          console.log("check");
+          $("#item"+currentItem+"-"+currentList+" .item-done").trigger("click");
+        }
+        currentItem++;
+        itemValue = localStorage.getItem("Item"+currentItem+"-"+currentList);
+      }
+      currentItem=0;
+      currentList++;
+    }
+    switch(localStorage.getItem("theme")){
+      case "Dark":
+      case "Light":
+        $("#color"+localStorage.getItem("theme")).trigger("click");
+        console.log("not default");
+        break;
+      case "Gray":
+      default:
+        console.log("default");
+        $("#colorDefault").trigger("click");
+        break;
+    }
+  }
 });

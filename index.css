@@ -2,7 +2,8 @@
   font-family: roboto, sans-serif;
 }
 :root {
-  --menu-color: rgb(220,220,220);
+  --background-color: rgb(220,220,220);
+  --button-color: rgb(220,220,220);
 }
 ::-webkit-scrollbar {
   width: 10px;
