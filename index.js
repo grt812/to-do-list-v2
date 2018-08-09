@@ -83,7 +83,7 @@ $(document).ready(function(){
       $("#list-display"+listid).addClass("selected");
     }
     if(editListOn){
-      $("#list-seelct-title"+listid).attr("contenteditable","true");
+      $("#list"+listid+" .list-select-title").attr("contenteditable","true");
     }
     $("#list-close"+listid).click(function(e){
       e.stopPropagation();

@@ -86,9 +86,16 @@ h1,h2,h3{
 .list-select-option.selected:hover{
   border-color: rgb(220,220,220);
 }
+.list-close{
+  float: right;
+  margin-left: 5px;
+}
 .each-list{
   background-color: initial;
   display: none;
+}
+.each-list::before{
+  content:"";
 }
 .each-list:empty::before{
   margin:0 auto;
