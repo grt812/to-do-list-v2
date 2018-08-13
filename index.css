@@ -191,6 +191,7 @@ i.material-icons{
 .mnbtn{
   background-color: transparent;
   color: white;
+  position: relative;
 }
 .mnbtn:hover{
   background-color: transparent;
@@ -223,7 +224,7 @@ i.material-icons{
   color: rgb(100,100,255) !important;
 }
 .edit-list-on:hover{
-  color: white !important;
+  color: rgb(120,120,255) !important;
 }
 #edit-list i{
 
@@ -336,7 +337,12 @@ i.material-icons{
 .text-editor-btn:hover{
   color: black;
 }
-
+#tooltip{
+  position: absolute;
+  background-color: rgb(0,0,0,0.5);
+  color: white;
+  padding:10px;
+}
 
 
 

@@ -3,7 +3,7 @@ $(document).ready(function(){
   //Dropdown Toggle
   var isListDropdownOn = false;
   var editListOn = false;
-  $("#list-select").click(function(e){
+  $("#select-btn").click(function(e){
     if(!editListOn){
       toggleListDropdown();
     }
@@ -125,6 +125,9 @@ $(document).ready(function(){
         $(this).prependTo("#visible-list-select").addClass("selected");
         $("#list-display"+listid).addClass("selected");
         addListByFiller();
+      }
+      if(isListDropdownOn){
+        toggleListDropdown();
       }
     });
   });
@@ -269,6 +272,9 @@ $(document).ready(function(){
       }, 1000);
     }
   });
+  $("#next-list").click(function(){
+    $("#list-select-not-selected .list-select-option").first().trigger("click");
+  });
   $(document).keydown(function(e){
     if(e.which == 13 && e.ctrlKey){
       e.preventDefault();
@@ -280,6 +286,9 @@ $(document).ready(function(){
       $(".item").last().children(".item-close").trigger("click");
     }
   });
+  function addTooltip(text, selector, direction){
+    $("#tooltip").text(text);
+  }
   function removeListWhiteSpace(){
     if($("#list").children().length == 0){
       $("#list").html("");
