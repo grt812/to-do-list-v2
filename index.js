@@ -125,9 +125,9 @@ $(document).ready(function(){
         $(this).prependTo("#visible-list-select").addClass("selected");
         $("#list-display"+listid).addClass("selected");
         addListByFiller();
-      }
-      if(isListDropdownOn){
-        toggleListDropdown();
+        if(isListDropdownOn){
+          toggleListDropdown();
+        }
       }
     });
   });
