@@ -11,7 +11,7 @@ $(document).ready(function(){
   //Auto Save
   $(window).on('beforeunload', function(){
   	loadLocalData();
-	localStorage.setItem("instances", Number(localStorage.getItem("instances"))-1).toString()); 
+	localStorage.setItem("instances", Number(localStorage.getItem("instances")-1).toString()); 
   });
 //   setInterval(function(){
 //     loadLocalData();
@@ -389,7 +389,7 @@ $(document).ready(function(){
     while(praseInt(localStorage.getItem("instances"))){
     	alert("You have multiple tabs with To-Do List open! Close all but one To-Do List tabs in your browser.");
     }
-    localStorage.setItem("instances", Number(localStorage.getItem("instances"))+1).toString()); 
+    localStorage.setItem("instances", Number(localStorage.getItem("instances")+1).toString()); 
     let currentList = 0;
     let currentItem = 0;
     let itemValue;
