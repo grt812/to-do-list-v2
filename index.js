@@ -9,9 +9,13 @@ $(document).ready(function(){
     }
   });
   //Auto Save
-  setInterval(function(){
-    loadLocalData();
-  },0.5*1000);
+  $(window).on('beforeunload', function(){
+  	loadLocalData();
+	localStorage.setItem("instances", Number(localStorage.getItem("instances"))-1).toString()); 
+  });
+//   setInterval(function(){
+//     loadLocalData();
+//   },0.5*1000);
   //manual save
   // $("#save-btn").click(function(){
   //   loadLocalData();
@@ -369,7 +373,9 @@ $(document).ready(function(){
   loadInFromData();
   //Save and load data to local storage
   function loadLocalData(){
+    let tempinstances = localStorage.getItem("instances");
     localStorage.clear();
+    localStorage.setItem("instances", tempinstances);
     for(let i = 0; i < $(".list-select-option:not('#list-1')").length; i++){
       localStorage.setItem("List"+i,$("#list"+i+" .list-select-title").text());
       for(let j = 0; j < $("#list-display"+i+" .item").length; j++){
@@ -380,6 +386,10 @@ $(document).ready(function(){
   }
   //Load data from local storage into html
   function loadInFromData(){
+    while(praseInt(localStorage.getItem("instances"))){
+    	alert("You have multiple tabs with To-Do List open! Close all but one To-Do List tabs in your browser.");
+    }
+    localStorage.setItem("instances", Number(localStorage.getItem("instances"))+1).toString()); 
     let currentList = 0;
     let currentItem = 0;
     let itemValue;
