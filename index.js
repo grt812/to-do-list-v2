@@ -386,7 +386,7 @@ $(document).ready(function(){
   }
   //Load data from local storage into html
   function loadInFromData(){
-    while(Number(localStorage.getItem("instances"))){
+    while(Number(localStorage.getItem("instances") >=1 && localStorage.getItem("instances") !== "NaN" && localStorage.getItem("instances") !== null)){
     	alert("You have multiple tabs with To-Do List open! Close all but one To-Do List tabs in your browser.");
     }
     localStorage.setItem("instances", Number(localStorage.getItem("instances")+1).toString()); 
