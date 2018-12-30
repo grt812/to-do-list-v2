@@ -397,7 +397,11 @@ $(document).ready(function(){
     }
     if(Number(localStorage.getItem("instances")) >=1 && localStorage.getItem("instances") !== "NaN" && localStorage.getItem("instances") !== null){
 	noinstances = false;
-    	confirmModal("You have multiple tabs with To-Do List open! Close all but one To-Do List tabs in your browser. Close this tab? (click no if this is the only tab open)", function(){close();}, function(){noinstances=true; localStorage.setItem("instances","0"); loadIn();});
+    	confirmModal("You have multiple tabs with To-Do List open! Close all but one To-Do List tabs in your browser. Close this tab? (click no if this is the only tab open)", function(){close();}, function(){
+	    noinstances=true; 
+	    localStorage.setItem("instances","1"); 
+	    loadIn();
+	});
     }
     localStorage.setItem("instances", Number(localStorage.getItem("instances")+1).toString()); 
     if(noinstances){
