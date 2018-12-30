@@ -388,7 +388,10 @@ $(document).ready(function(){
   //Load data from local storage into html
   function loadInFromData(){
     let noinstances = true;
-    if(Number(localStorage.getItem("instances") >=1 && localStorage.getItem("instances") !== "NaN" && localStorage.getItem("instances") !== null)){
+    if(Number(localStorage.getItem("instances")) < 0){
+    	localStorage.setItem("instances","0");
+    }
+    if(Number(localStorage.getItem("instances")) >=1 && localStorage.getItem("instances") !== "NaN" && localStorage.getItem("instances") !== null){
 	noinstances = false;
     	confirmModal("You have multiple tabs with To-Do List open! Close all but one To-Do List tabs in your browser. Close this tab? (click no if this is the only tab open)", function(){close();}, function(){noinstances=true; localStorage.setItem("instances","0"); loadIn();});
     }
