@@ -341,7 +341,7 @@ $(document).ready(function(){
   });
   //CONFIRM FUNCTION ***********************************************************************************************************************************
   var confirmTrue = 0;
-  function confirmModal(message,confirm){
+  function confirmModal(message,confirm,deny=function(){}){
     $("#modals").show();
     $("#confirm-message").text(message);
     $("#confirm").show().useAnimateCSS("zoomIn");
@@ -353,6 +353,7 @@ $(document).ready(function(){
     $("#cancelBtn").one("click",function(){
       $("#confirm").hide();
       $("#modals").hide();
+      deny();
     });
   }
   $("#clear-list").click(function(){
@@ -386,10 +387,17 @@ $(document).ready(function(){
   }
   //Load data from local storage into html
   function loadInFromData(){
-    while(Number(localStorage.getItem("instances") >=1 && localStorage.getItem("instances") !== "NaN" && localStorage.getItem("instances") !== null)){
-    	confirmModal("You have multiple tabs with To-Do List open! Close all but one To-Do List tabs in your browser. Close this tab?", function(){close();});
+    let noinstances = true;
+    if(Number(localStorage.getItem("instances") >=1 && localStorage.getItem("instances") !== "NaN" && localStorage.getItem("instances") !== null)){
+	noinstances = false;
+    	confirmModal("You have multiple tabs with To-Do List open! Close all but one To-Do List tabs in your browser. Close this tab? (click no if there are no tabs open)", function(){close();}, function(){noinstances=true; localStorage.setItem("instances","0"); loadIn();});
     }
     localStorage.setItem("instances", Number(localStorage.getItem("instances")+1).toString()); 
+    if(noinstances){
+    	loadIn();
+    }
+  }
+  function loadIn(){
     let currentList = 0;
     let currentItem = 0;
     let itemValue;
