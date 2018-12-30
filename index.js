@@ -12,7 +12,7 @@ $(document).ready(function(){
   $(window).on('beforeunload', function(){
   	loadLocalData();
 	alert("unloading");
-	localStorage.setItem("instances", Number(localStorage.getItem("instances")-1).toString()); 
+	localStorage.setItem("instances", (Number(localStorage.getItem("instances"))-1).toString()); 
   });
 //   setInterval(function(){
 //     loadLocalData();
