@@ -404,7 +404,7 @@ $(document).ready(function(){
 	    loadIn();
 	});
     }
-    localStorage.setItem("instances", Number(localStorage.getItem("instances")+1).toString()); 
+    localStorage.setItem("instances", (Number(localStorage.getItem("instances"))+1).toString()); 
     if(noinstances){
     	loadIn();
     }
