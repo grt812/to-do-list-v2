@@ -1,3 +1,3 @@
-# to-do-list-v2
+# To-Do List V2
 
-https://grt812.github.io/to-do-list-v2/
+https://grt812.github.io/todolist2/
