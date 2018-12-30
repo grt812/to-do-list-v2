@@ -11,6 +11,7 @@ $(document).ready(function(){
   //Auto Save
   $(window).on('beforeunload', function(){
   	loadLocalData();
+	alert("unloading");
 	localStorage.setItem("instances", Number(localStorage.getItem("instances")-1).toString()); 
   });
 //   setInterval(function(){
