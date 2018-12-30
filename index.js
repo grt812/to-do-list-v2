@@ -349,11 +349,15 @@ $(document).ready(function(){
       $("#confirm").hide();
       $("#modals").hide();
       confirm();
+      confirm = function(){};
+      deny = function(){};
     });
     $("#cancelBtn").one("click",function(){
       $("#confirm").hide();
       $("#modals").hide();
       deny();
+      confirm = function(){};
+      deny = function(){};
     });
   }
   $("#clear-list").click(function(){
